@@ -240,9 +240,9 @@
                                         <li id="appSpv">
                                             <a href="get-wo-app-spv.html">Approved Spv <span id="pendingCount"></span></a>
                                         </li>
-                                        <li id="appAdmin">
-                                            <a href="get-wo-app-adm.html">Approved Admin <span id="pendingCount"></span></a>
-                                        </li>
+                                        <!-- <li id="appAdmin">
+                                            <a href="get-wo-app-adm1.html">Approved Admin <span id="pendingCount"></span></a>
+                                        </li> -->
                                         <li>
                                             <a href="get-wo-spv-confirm.html">Sudah Di Verikasi</a>
                                         </li>
@@ -292,7 +292,9 @@
                                                 <th>Room</th>
                                                 <th>Location</th>
                                                 <th>Priority</th>
+                                                <th>Scope</th>
                                                 <th>Description</th>
+                                                <th>Evidence</th>
                                                 <th>Requester</th>
                                                 <th>Status</th>
                                                 <!-- <th>Note</th> -->
@@ -378,9 +380,6 @@
                         <input type="text" class="form-control" id="editId" name="id" required readonly>
                         <div class="invalid-feedback">Room is required.</div>
                     </div>
-                  </div>
-
-                  <div class="col-md-6"> <!-- Kolom untuk layar desktop -->
                     <div class="form-group">
                         <label for="editRequester">Requester</label>
                         <input type="text" class="form-control" id="editRequester" name="requester" required readonly>
@@ -391,6 +390,41 @@
                         <input type="text" class="form-control" id="editLocation" name="location" required readonly>
                         <div class="invalid-feedback">Store Keeper/Security is required.</div>
                     </div>
+                </div>
+
+                  <div class="col-md-6"> <!-- Kolom untuk layar desktop -->
+                    
+                    
+                    <div class="form-group">
+                    <label for="editPriority">Priority</label>
+                    <select class="form-control" id="editPriority" name="priority" required disabled >
+                        <option value="" disabled selected>Select Priority</option>
+                        <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
+                        <option value="Medium (&gt;2 Week &lt;1 Month)">Mesdium(&gt;2 Week &lt;1 Month)</option>
+                        <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
+                    </select>
+                    <div class="invalid-feedback">Priority is required.</div>
+                </div>            
+                <div class="form-group">
+                    <label for="editScope">Scope</label>
+                    <select class="form-control" id="editScope" name="scope" required disabled>
+                        <option value="" disabled selected>Select Priority</option>
+                        <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
+                        <option value="Medium (&gt;2 Week &lt;1 Month)">Mesdium(&gt;2 Week &lt;1 Month)</option>
+                        <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
+                    </select>
+                    <div class="invalid-feedback">Priority is required.</div>
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Description</label>
+                    <textarea class="form-control" id="editDescription" name="description" rows="3" readonly></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editEvidence">Evidence (Image, Video, PDF, DOC, etc.)</label>
+                    <input class="form-control" type="file" name="evidence" id="editEvidence" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.mp4,.avi" readonly>
+                    <div class="invalid-feedback">Please upload a valid file.</div>
+                </div>
                     <div class="form-group">
                         <label for="editStatus">Status</label>
                         <select class="form-control" id="editStatus" name="status" required>
@@ -490,23 +524,29 @@
     </script>
 
 <script>
-   document.addEventListener('DOMContentLoaded', function() {
-    
-    // Ambil peran pengguna dari sessionStorage
-    const userRole = sessionStorage.getItem('role');
-
-    // Ambil elemen menu "Get Barang"
-    const addButton = document.querySelector('.page-title-box .btn.btn-success'); // Selector untuk tombol "Tambah Item"
-
-    if (userRole !== 'user') {
-        if (addButton) addButton.style.display = 'none';
-    }
-    if (userRole !== 'user') {
-        const menuGetBarang = document.getElementById('menu-get-barang');
-        if (menuGetBarang) {
-            menuGetBarang.style.display = 'none';
-        }
-    } 
+    document.addEventListener('DOMContentLoaded', function() {
+     
+     // Ambil peran pengguna dari sessionStorage
+     const userRole = sessionStorage.getItem('role');
+ 
+     // Ambil elemen menu "Get Barang"
+     const addButton = document.querySelector('.page-title-box .btn.btn-success'); // Selector untuk tombol "Tambah Item"
+ 
+     if (userRole !== 'user') {
+         if (addButton) addButton.style.display = 'none';
+     }
+     if (userRole !== 'user') {
+         const menuGetBarang = document.getElementById('menu-get-barang');
+         if (menuGetBarang) {
+             menuGetBarang.style.display = 'none';
+         }
+     if (userRole !== 'user') {
+         const menuGetBarang = document.getElementById('get-wo-user.html');
+         if (menuGetWoUser) {
+             menuGetWoUser.style.display = 'none';
+         }
+     } 
+ }
 
     // Sembunyikan menu berdasarkan role
     if (userRole !== 'admin' && userRole !== 'superadmin') {
@@ -574,6 +614,32 @@ function updateMenuWithPendingCount(pendingCount) {
     }
 }
 
+const userRole = sessionStorage.getItem('role');
+// Menyembunyikan atau menampilkan menu berdasarkan role
+if (userRole === 'admin') {
+    // Menampilkan menu admin, menyembunyikan menu spv
+    const menuAppAdmin = document.getElementById('appAdmin');
+    const menuAppSpv = document.getElementById('appSpv');
+    
+    if (menuAppAdmin) {
+        menuAppAdmin.style.display = 'block'; // Atur sesuai dengan tampilan yang diinginkan
+    }
+    if (menuAppSpv) {
+        menuAppSpv.style.display = 'none';
+    }
+} else {
+    // Menampilkan menu spv, menyembunyikan menu admin
+    const menuAppSpv = document.getElementById('appSpv');
+    const menuAppAdmin = document.getElementById('appAdmin');
+    
+    if (menuAppSpv) {
+        menuAppSpv.style.display = 'block';
+    }
+    if (menuAppAdmin) {
+        menuAppAdmin.style.display = 'none';
+    }
+}
+
 
  function formatDate(isoString) {
         const date = new Date(isoString);
@@ -589,7 +655,7 @@ function updateMenuWithPendingCount(pendingCount) {
 
             // read data
             document.addEventListener('DOMContentLoaded', function() {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=read';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
             const loadingSpinner = document.getElementById('loadingSpinner');
 
             // Menampilkan spinner
@@ -641,10 +707,11 @@ function updateMenuWithPendingCount(pendingCount) {
                             tableRow.insertCell(5).textContent = row.room || '';
                             tableRow.insertCell(6).textContent = row.location || '';
                             tableRow.insertCell(7).textContent = row.priority || '';
-                            tableRow.insertCell(8).textContent = row.description || '';
-                            tableRow.insertCell(9).textContent = row.requester || '';
-                           
-         const statusCell = tableRow.insertCell(10);statusCell.textContent = statusToDisplay || '';
+                            tableRow.insertCell(8).textContent = row.scope || '';
+                            tableRow.insertCell(9).textContent = row.description || '';
+                            tableRow.insertCell(10).textContent = row.evidence || '';
+                            tableRow.insertCell(11).textContent = row.requester || '';
+         const statusCell = tableRow.insertCell(12);statusCell.textContent = row.status_user || '';
 
                             // Jika status "Pending", berikan warna merah
                             if (row.status === 'Review Spv') {
@@ -666,7 +733,7 @@ function updateMenuWithPendingCount(pendingCount) {
                             }
 
                             // Tambahkan kolom Edit dan Delete
-                            const actionCell = tableRow.insertCell(11);
+                            const actionCell = tableRow.insertCell(13);
                             actionCell.innerHTML = `
                             <button class="btn btn-success btn-sm edit-btn" data-id="${row.id}" style="${userRole !== 'admin'&& userRole !== 'superadmin' && userRole !== 'supervisor' ? 'display: none;' : ''}">Detail</button>           
                         `;               
@@ -771,9 +838,9 @@ function updateMenuWithPendingCount(pendingCount) {
 
                 // get part name sheet barang
             document.addEventListener('DOMContentLoaded', function() {
-            const partSheetURL = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=read';
-            const apiUrl = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=getSpareParts';
-            const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=getSpecification';
+            const partSheetURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getSpareParts';
+            const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getSpecification';
 
             let partData = [];
 
@@ -871,7 +938,7 @@ function updateMenuWithPendingCount(pendingCount) {
                 const userId = $(this).data('id');
 
                 // Ambil data item berdasarkan ID
-                $.get(`https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=getItemById&id=${userId}`, function(data) {
+                $.get(`https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getItemById&id=${userId}`, function(data) {
 
                     if (data.status === 'success') {
                         const user = data.data;
@@ -885,6 +952,11 @@ function updateMenuWithPendingCount(pendingCount) {
 
                             $('#editRequester').val(user.requester);
                             $('#editLocation').val(user.location);
+                            $('#editPriority').val(user.priority);
+                            $('#editScope').val(user.scope);
+                            $('#editDescription').val(user.description);
+                            $('#editEvidence').val(user.evidence);
+                            $('#editRequester').val(user.requester);
                             $('#editStatus').val(user.status).attr('data-old-value',user.status);
                             $('#editNote').val(user.note).attr('data-old-value',user.note);
                             $('#editLog').val(user.log);
@@ -1010,7 +1082,7 @@ function updateMenuWithPendingCount(pendingCount) {
                 const formData = $(this).serialize();
 
                 $.ajax({
-                url: 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=update',
+                url: 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=update',
                 type: 'POST',
                 data: formData,
                 timeout: 60000, // 60 detik

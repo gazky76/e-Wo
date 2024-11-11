@@ -703,7 +703,7 @@ function formatDate(isoString) {
 
             // read data
             document.addEventListener('DOMContentLoaded', function() {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=read';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
             const loadingSpinner = document.getElementById('loadingSpinner');
 
             // Menampilkan spinner
@@ -867,7 +867,7 @@ function formatDate(isoString) {
 
                 // get part name sheet barang
             document.addEventListener('DOMContentLoaded', function() {
-            const partSheetURL = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=read';
+            const partSheetURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
             const apiUrl = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpareParts';
             const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpecification';
 
@@ -967,7 +967,7 @@ function formatDate(isoString) {
                 const userId = $(this).data('id');
 
                 // Ambil data item berdasarkan ID
-                $.get(`https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=getItemById&id=${userId}`, function(data) {
+                $.get(`https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getItemById&id=${userId}`, function(data) {
 
                     if (data.status === 'success') {
                         const user = data.data;
@@ -1306,7 +1306,7 @@ function formatDate(isoString) {
 
 
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=create', true);
+                    xhr.open('POST', 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=create', true);
 
                     xhr.onload = function () {
                         if (xhr.status >= 200 && xhr.status < 400) {

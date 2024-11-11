@@ -231,7 +231,7 @@
                                 <li>
                                     <a href="get-wo-user.html">Order Request</a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="javascript: void(0);" aria-expanded="false">Log Approved
                                             <span class="menu-arrow"></span>
                                         </a>
@@ -243,7 +243,7 @@
                                             <a href="get-wo-spv-confirm.html">Sudah Di Verikasi</a>
                                         </li>
                                     </ul>
-                                </li>
+                                </li> -->
                                 <li>                     
                                     <a href="Laporan-SM.html">Status</a>
                                 </li>                                                        
@@ -266,7 +266,7 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="page-title-box d-flex justify-content-between align-items-center">
-                                <h4 class="page-title mb-0">Data Barang Yang Diambil</h4>
+                                <h4 class="page-title mb-0">Data Work Order</h4>
                                 <button type="button" class="btn btn-success waves-effect waves-light btn-sm" data-toggle="modal" data-target="#addItemModal">Order Request</button>
                             </div>
                         </div>
@@ -287,9 +287,11 @@
                                                 <th>Mesin</th>
                                                 <th>Room</th>
                                                 <th>Location</th>
+                                                <th>Scope</th>
                                                 <th>Priority</th>
                                                 <th>Description</th>
                                                 <th>Requester</th>
+                                                <th>Evidence</th>
                                                 <th>Status</th>
                                                 <!-- <th>LOG</th> -->
                                                 <!-- <th>ADD QTY</th>
@@ -321,7 +323,7 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addItemModalLabel">Form Pengambilan Barang</h5>
+                <h5 class="modal-title" id="addItemModalLabel">Form Work Order</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -384,8 +386,24 @@
                         <div class="invalid-feedback">Priority is required.</div>
                     </div>            
                     <div class="form-group">
+                        <label for="scope">Scope</label>
+                        <select class="form-control" id="scope" name="scope" required >
+                            <option value="" disabled selected>Select Priority</option>
+                            <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
+                            <option value="Medium (&gt;2 Week &lt;1 Month)">Mesdium(&gt;2 Week &lt;1 Month)</option>
+                            <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
+                        </select>
+                        <div class="invalid-feedback">Priority is required.</div>
+                    </div>
+                    <div class="form-group">
                         <label for="description">Description</label>
                         <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="evidence">Evidence (Image, Video, PDF, DOC, etc.)</label>
+                        <input class="form-control" type="file" name="evidence" id="evidence" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.mp4,.avi">
+                        <div class="invalid-feedback">Please upload a valid file.</div>
                     </div>
                     <!-- <div id="itemsContainer">
                         <div class="item-row row">
@@ -502,7 +520,7 @@
                     </div>
                     <div class="form-group">
                         <label for="editStatus">Status</label>
-                        <select class="form-control" id="editStatus" name="status_user" required>
+                        <select class="form-control" id="editStatus" name="status_user" required disabled>
                             <option value="Review Spv">Review Spv</option>
                             <option value="Review Admin">Review Admin</option>
                             <option value="Confirm">Confirm</option>
@@ -511,7 +529,7 @@
                     </div> 
                     <div class="form-group">
                         <label for="editNote">Note</label>
-                        <textarea class="form-control" id="editNote" name="note" rows="1"></textarea>
+                        <textarea class="form-control" id="editNote" name="note" rows="1" readonly></textarea>
                         <!-- <input type="text" class="form-control" id="editNote" name="note"> -->
                     </div>
                     <div class="form-group">
@@ -700,7 +718,7 @@ function formatDate(isoString) {
 
             // read data
             document.addEventListener('DOMContentLoaded', function() {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=read';
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
             const loadingSpinner = document.getElementById('loadingSpinner');
 
             // Menampilkan spinner
@@ -734,9 +752,11 @@ function formatDate(isoString) {
                             tableRow.insertCell(5).textContent = row.room || '';
                             tableRow.insertCell(6).textContent = row.location || '';
                             tableRow.insertCell(7).textContent = row.priority || '';
-                            tableRow.insertCell(8).textContent = row.description || '';
-                            tableRow.insertCell(9).textContent = row.requester || '';
-         const statusCell = tableRow.insertCell(10);statusCell.textContent = row.status_user || '';
+                            tableRow.insertCell(8).textContent = row.scope || '';
+                            tableRow.insertCell(9).textContent = row.description || '';
+                            tableRow.insertCell(10).textContent = row.requester || '';
+                            tableRow.insertCell(11).textContent = row.evidence || '';
+                            const statusCell = tableRow.insertCell(12);statusCell.textContent = row.status_user || '';
 
                             // Jika status "Pending", berikan warna merah
                             if (row.status_user === 'Review Spv') {
@@ -763,7 +783,7 @@ function formatDate(isoString) {
                         //    tableRow.insertCell(12).innerHTML = row.log ? row.log.replace(/\n/g, '<br>') : '';
                             
                             // Tambahkan kolom Edit dan Delete
-                            const actionCell = tableRow.insertCell(11);
+                            const actionCell = tableRow.insertCell(13);
                             actionCell.innerHTML = `
                             <button class="btn btn-success btn-sm edit-btn" data-id="${row.id}" style="${userRole == 'user' ? 'display: show;' : ''}">Detail</button>           
                         `;               
@@ -868,7 +888,7 @@ function formatDate(isoString) {
 
                 // get part name sheet barang
             document.addEventListener('DOMContentLoaded', function() {
-            const partSheetURL = 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=read';
+            const partSheetURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
             const apiUrl = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpareParts';
             const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpecification';
 
@@ -968,7 +988,7 @@ function formatDate(isoString) {
                 const userId = $(this).data('id');
 
                 // Ambil data item berdasarkan ID
-                $.get(`https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=getItemById&id=${userId}`, function(data) {
+                $.get(`https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getItemById&id=${userId}`, function(data) {
 
                     if (data.status === 'success') {
                         const user = data.data;
@@ -1120,6 +1140,7 @@ function formatDate(isoString) {
                 url: 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=update',
                 type: 'POST',
                 data: formData,
+                mode: 'no-cors',
                 success: function(response) {
                     if (response.status === 'success') {
                         Swal.fire({
@@ -1150,222 +1171,174 @@ function formatDate(isoString) {
                 });
             }); 
 
-                           // create
-                $(document).ready(function() {     
-                // Set nilai default untuk tanggal dan waktu ke waktu saat ini
-                var today = new Date().toISOString().split('T')[0];
-                var timeNow = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
+            $(document).ready(function() {
+    // Set nilai default untuk tanggal dan waktu ke waktu saat ini
+    var today = new Date().toISOString().split('T')[0];
+    var timeNow = new Date().toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
 
-                $('#date').val(today);
-                $('#time').val(timeNow);
+    $('#date').val(today);
+    $('#time').val(timeNow);
 
-                // Ambil nama pengguna dari sessionStorage dan tampilkan di kolom requester
-                var userName = sessionStorage.getItem('username');
-                if (userName) {
-                    $('#requester').val(userName);
-                }
+    // Ambil nama pengguna dari sessionStorage dan tampilkan di kolom requester
+    var userName = sessionStorage.getItem('username');
+    if (userName) {
+        $('#requester').val(userName);
+    }
 
-                    const apiUrl = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpareParts';
-                    const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpecification';
+    const apiUrl = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpareParts';
+    const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbypjjsM2tpbpqcGGLivgQ0mjgSkrmK8DfMfuBZ_g3YC_a7fWv8A4s8v0Z51RaqNYbXG0w/exec?action=getSpecification';
 
-                                // Inisialisasi Select2 mesin
-                        $(document).ready(function() {
-                            $('.select2').select2({
-                                placeholder: "Select Mesin",
-                                allowClear: true,
-                                selectionCssClass: 'form-control', // Memastikan gaya Bootstrap diterapkan
-                                containerCssClass: 'form-control'  // Menjamin kontainer juga mendapatkan gaya yang benar
-                            });
+    // Mengonversi file evidence ke dalam format Base64
+    function convertFileToBase64(file, callback) {
+        const reader = new FileReader();
+        reader.onloadend = function() {
+            callback(reader.result.split(',')[1]); // Mengambil data base64 tanpa prefix
+        };
+        reader.readAsDataURL(file);
+    }
 
-                            // Panggil fungsi untuk mengisi dropdown mesin
-                            populateMesinDropdown();
-                        });
-                        function populateMesinDropdown() {
-                            const $mesinDropdown = $('#mesin');
-                            $.get(apiUrl, function(response) {
-                                if (response.status === 'success') {
-                                    $mesinDropdown.empty();
-                                    $mesinDropdown.append('<option value="" disabled selected>Select Mesin</option>');
-                                    response.data.forEach(item => {
-                                        if (item.partMachine) {
-                                            $mesinDropdown.append(`<option value="${item.partMachine}">${item.partMachine}</option>`);
-                                        }
-                                    });
-                                    $mesinDropdown.trigger('change'); // Refresh dropdown setelah data di-load
-                                } else {
-                                    console.error('Error fetching mesin data:', response.message);
-                                }
-                            }).fail(function(jqXHR, textStatus, errorThrown) {
-                                console.error('Request failed:', textStatus, errorThrown);
-                            });
-                        }
+    // Handle form submit
+    $('#createItemForm').submit(function(e) {
+        e.preventDefault();
 
+        const formData = new FormData();
+        const evidenceFile = $('#evidence')[0].files[0];
+        const itemsData = Array.from(document.querySelectorAll('#itemsContainer .item-row')).map(row => ({
+            part_name: row.querySelector('.partName').value,
+            specification: row.querySelector('.specification').value,
+            qty: row.querySelector('.qty').value
+        }));
 
-                                // Inisialisasi Select3 part
-                        $(document).ready(function() {
-                            $('.select3').select2({
-                                placeholder: "Select Part Name",
-                                allowClear: true,
-                                selectionCssClass: 'form-control', // Memastikan gaya Bootstrap diterapkan
-                                containerCssClass: 'form-control'  // Menjamin kontainer juga mendapatkan gaya yang benar
-                            });
-
-                            // Panggil fungsi untuk mengisi dropdown mesin
-                            populatePartNameDropdown();
-                        });
-                    function populatePartNameDropdown($dropdown, data) {
-                        $dropdown.empty();
-                        $dropdown.append('<option value="" disabled selected>Select Part Name</option>');
-                        data.forEach(item => {
-                            if (item.partName) {
-                                $dropdown.append(`<option value="${item.partName}">${item.partName}</option>`);
-                            }
-                        });
-                    }
-
-                    function populateAllDropdowns() {
-                        $.get(apiUrl, function(response) {
-                            if (response.status === 'success') {
-                                const $dropdowns = $('.partName');
-                                $dropdowns.each(function() {
-                                    populatePartNameDropdown($(this), response.data);
-                                });
-                            } else {
-                                console.error('Error fetching spare parts data:', response.message);
-                            }
-                        }).fail(function(jqXHR, textStatus, errorThrown) {
-                            console.error('Request failed:', textStatus, errorThrown);
-                        });
-                    }
-
-                    populateAllDropdowns();
-
-
-                     $('#itemsContainer').on('change', '.partName', function() {
-                         const selectedPartName = $(this).val();
-                         const $specField = $(this).closest('.item-row').find('.specification');
-                         const $stockField = $(this).closest('.item-row').find('.stock');
-                        
-                         if (selectedPartName) {
-                             $.get(apiUrlSpecification, { partName: selectedPartName }, function(response) {
-                                 console.log('Specification Response:', response);
-                                 if (response.partName === selectedPartName) {
-                                     $specField.val(response.specification || '');
-                                     $stockField.val(response.stock || 0);
-                                 } else {
-                                     console.error('Part name mismatch or specification data missing');
-                                 }
-                             }).fail(function(jqXHR, textStatus, errorThrown) {
-                                 console.error('Request failed:', textStatus, errorThrown);
-                             });
-                         } else {
-                             $specField.val('');
-                         }
-                     });
-
-
-                    // Form submission
-            document.getElementById('createItemForm').addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevent the form from submitting normally
-
-                var form = event.target;
-                var isValid = true;
-                var saveButton = document.getElementById('saveButton');
-                
-                // Validate each field
-                Array.from(form.elements).forEach(function(element) {
-                    if (element.required && !element.value) {
-                        element.classList.add('is-invalid');
-                        isValid = false;
-                    } else {
-                        element.classList.remove('is-invalid');
-                    }
-                });
-
-                // Collect data from each item row
-                var itemsData = [];
-                document.querySelectorAll('#itemsContainer .item-row').forEach(function(row) {
-                    var item = {
-                        part_name: row.querySelector('.partName').value,
-                        specification: row.querySelector('.specification').value,
-                        qty: row.querySelector('.qty').value
-                    };
-                    itemsData.push(item);
-                });
-
-                // If form is valid, submit it
-                if (isValid) {
-                    saveButton.disabled = true;
-                    saveButton.textContent = 'Loading...';
-                    var formData = new FormData(form);
-                    formData.append('items', JSON.stringify(itemsData)); // Add items data
-
-                    // Add current date and time
-            var currentDate = new Date();
-            formData.append('tanggal', currentDate.toISOString().split('T')[0]); // YYYY-MM-DD format
-            formData.append('waktu', currentDate.toTimeString().split(' ')[0]);  // HH:MM:SS format
-
-
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'https://script.google.com/macros/s/AKfycbzcg3XqJ6hEyJBGLNUlgM4MWeCUthMtrtQ2Dk7XOeWNs8KFq3y3DvYKFGGVm_-iy__t-Q/exec?action=create', true);
-
-                    xhr.onload = function () {
-                        if (xhr.status >= 200 && xhr.status < 400) {
-                            var response = JSON.parse(xhr.responseText);
-
-                            if (response.status === 'success') {
-                                Swal.fire({
-                                    title: 'Success!',
-                                    text: 'Data saved successfully!',
-                                    icon: 'success',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    location.reload(); // Reload the page to update the data
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: 'Error!',
-                                    text: response.message || 'An error occurred while submitting the form.',
-                                    icon: 'error',
-                                    confirmButtonText: 'OK'
-                                }).then(() => {
-                                    saveButton.disabled = false;  // Aktifkan kembali tombol
-                                    saveButton.textContent = 'Save';  // Ubah teks tombol kembali ke 'Save'
-                                });
-                            }
-                        } else {
-                            Swal.fire({
-                                title: 'Error!',
-                                text: 'An error occurred while submitting the form.',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
-                            }).then(() => {
-                                saveButton.disabled = false;  // Aktifkan kembali tombol
-                                saveButton.textContent = 'Save';  // Ubah teks tombol kembali ke 'Save'
-                            });
-                        }
-                    };
-
-                    xhr.onerror = function() {
-                        Swal.fire({
-                            title: 'Error!',
-                            text: 'An error occurred while sending the request.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    };
-
-                    xhr.send(formData);
-                } else {
-                    Swal.fire({
-                        title: 'Validation Error',
-                        text: 'Please fill in all required fields.',
-                        icon: 'warning',
-                        confirmButtonText: 'OK'
-                    });
-                }
-            });
+        // Validasi data
+        let isValid = true;
+        $('#createItemForm [required]').each(function() {
+            if (!$(this).val()) {
+                $(this).addClass('is-invalid');
+                isValid = false;
+            } else {
+                $(this).removeClass('is-invalid');
+            }
         });
+
+        if (!isValid) {
+            showValidationError();
+            return;
+        }
+
+        formData.append('items', JSON.stringify(itemsData));
+        formData.append('tanggal', new Date().toISOString().split('T')[0]);
+        formData.append('waktu', new Date().toTimeString().split(' ')[0]);
+
+        if (evidenceFile) {
+            convertFileToBase64(evidenceFile, function(base64Evidence) {
+                formData.append('evidence', base64Evidence);
+                formData.append('evidenceType', evidenceFile.type);
+                submitFormData(formData);
+            });
+        } else {
+            submitFormData(formData);
+        }
+    });
+
+    function submitFormData(formData) {
+        const saveButton = $('#saveButton');
+        saveButton.prop('disabled', true).text('Loading...');
+
+        $.ajax({
+            url: 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=create',
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response.status === 'success') {
+                    Swal.fire('Success!', 'Data saved successfully!', 'success').then(() => location.reload());
+                } else {
+                    showError(response.message || 'An error occurred while submitting the form.');
+                    resetSaveButton();
+                }
+            },
+            error: function() {
+                showError('An error occurred while submitting the form.');
+                resetSaveButton();
+            }
+        });
+    }
+
+    function resetSaveButton() {
+        $('#saveButton').prop('disabled', false).text('Save');
+    }
+
+    function showValidationError() {
+        Swal.fire({
+            title: 'Validation Error',
+            text: 'Please fill in all required fields.',
+            icon: 'warning',
+            confirmButtonText: 'OK'
+        });
+    }
+
+    function showError(message) {
+        Swal.fire({
+            title: 'Error!',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'OK'
+        });
+    }
+
+    // Inisialisasi dropdown select2
+    $('.select2').select2({
+        placeholder: "Select Mesin",
+        allowClear: true,
+        selectionCssClass: 'form-control',
+        containerCssClass: 'form-control'
+    });
+
+    populateMesinDropdown();
+    populateAllDropdowns();
+
+    function populateMesinDropdown() {
+        const $mesinDropdown = $('#mesin');
+        $.get(apiUrl, function(response) {
+            if (response.status === 'success') {
+                $mesinDropdown.empty().append('<option value="" disabled selected>Select Mesin</option>');
+                response.data.forEach(item => {
+                    if (item.partMachine) {
+                        $mesinDropdown.append(`<option value="${item.partMachine}">${item.partMachine}</option>`);
+                    }
+                });
+                $mesinDropdown.trigger('change');
+            } else {
+                console.error('Error fetching mesin data:', response.message);
+            }
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed:', textStatus, errorThrown);
+        });
+    }
+
+    function populateAllDropdowns() {
+        $.get(apiUrl, function(response) {
+            if (response.status === 'success') {
+                const $dropdowns = $('.partName');
+                $dropdowns.each(function() {
+                    const $dropdown = $(this);
+                    $dropdown.empty().append('<option value="" disabled selected>Select Part Name</option>');
+                    response.data.forEach(item => {
+                        if (item.partName) {
+                            $dropdown.append(`<option value="${item.partName}">${item.partName}</option>`);
+                        }
+                    });
+                });
+            } else {
+                console.error('Error fetching spare parts data:', response.message);
+            }
+        }).fail(function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed:', textStatus, errorThrown);
+        });
+    }
+});
+
 
 </script>
 

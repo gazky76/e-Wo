@@ -237,13 +237,13 @@
                                         </a>
                                     <ul class="nav-third-level nav" aria-expanded="false">
                                         <li>
-                                            <a href="get-wo-app-spv.html">Approved SPV <span id="pendingCount"></span></a>
+                                            <a href="get-wo-app-adm1.html">Approved Admin <span id="pendingCount"></span></a>
                                         </li>
                                         <!-- <li id="appAdmin"></li>
                                             <a href="get-wo-app-adm1.html">Approved Admin <span id="pendingCount"></span></a>
                                         </li> -->
                                         <li>
-                                            <a href="get-wo-spv-confirm.html">Sudah Di Verikasi</a>
+                                            <a href="get-wo-adm-confirm.html">Sudah Di Verikasi</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -636,7 +636,7 @@ rows.filter(row => row.status === 'Confirm' || row.status === 'Cancel').forEach(
                             tableRow.insertCell(7).textContent = row.priority || '';
                             tableRow.insertCell(8).textContent = row.description || '';
                             tableRow.insertCell(9).textContent = row.requester || '';
-         const statusCell = tableRow.insertCell(10);statusCell.textContent = row.status || '';
+         const statusCell = tableRow.insertCell(10);statusCell.textContent = row.status_adm || '';
 
                             // Jika status "Pending", berikan warna merah
                             if (row.status === 'Pending') {
@@ -1092,7 +1092,7 @@ rows.filter(row => row.status === 'Confirm' || row.status === 'Cancel').forEach(
                             $('#editQty').val(user.qty).attr('data-old-value',user.qty);
                             $('#editRequester').val(user.requester);
                             $('#editStoreKeeper').val(user.security);
-                            $('#editStatus').val(user.status).attr('data-old-value',user.status);
+                            $('#editStatus').val(user.status_adm).attr('data-old-value',user.status_adm);
                             $('#editNote').val(user.note).attr('data-old-value',user.note);
                             $('#editLog').val(user.log);
                             // Ambil data stock berdasarkan part_name
