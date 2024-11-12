@@ -229,7 +229,7 @@
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul class="nav-second-level nav" aria-expanded="false">
-                                <li>
+                                <li>    
                                     <a href="get-wo-user.html">Order Request</a>
                                 </li>
                                 <li>
@@ -237,14 +237,14 @@
                                             <span class="menu-arrow"></span>
                                         </a>
                                     <ul class="nav-third-level nav" aria-expanded="false">
-                                        <li id="appSpv">
+                                        <!-- <li id="appSpv">
                                             <a href="get-wo-app-spv.html">Approved Spv <span id="pendingCount"></span></a>
-                                        </li>
+                                        </li> -->
                                         <li id="appAdmin">
-                                            <a href="get-wo-app-adm.html">Approved Admin <span id="pendingCount"></span></a>
+                                            <a href="get-wo-app-adm1.html">Approved Admin <span id="pendingCount"></span></a>
                                         </li>
                                         <li>
-                                            <a href="get-wo-spv-confirm.html">Sudah Di Verikasi</a>
+                                            <a href="get-wo-adm-confirm.html">Sudah Di Verikasi</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -294,6 +294,7 @@
                                                 <th>Priority</th>
                                                 <th>Scope</th>
                                                 <th>Description</th>
+                                                <th>Evidence</th>
                                                 <th>Requester</th>
                                                 <th>Status</th>
                                                 <!-- <th>Note</th> -->
@@ -389,43 +390,56 @@
                         <input type="text" class="form-control" id="editLocation" name="location" required readonly>
                         <div class="invalid-feedback">Store Keeper/Security is required.</div>
                     </div>
-                  </div>
+                </div>
 
                   <div class="col-md-6"> <!-- Kolom untuk layar desktop -->
-                   
+                    
+                    
                     <div class="form-group">
-                        <label for="editPriority">Priority</label>
-                        <select class="form-control" id="editPriority" name="priority" required disabled >
-                            <option value="" disabled selected>Select Priority</option>
-                            <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
-                            <option value="Medium (&gt;2 Week &lt;1 Month)">Medium(&gt;2 Week &lt;1 Month)</option>
-                            <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
-                        </select>
-                        <div class="invalid-feedback">Priority is required.</div>
-                    </div>            
-                    <div class="form-group">
-                        <label for="editScope">Scope</label>
-                        <select class="form-control" id="editScope" name="scope" required disabled>
-                            <option value="" disabled selected>Select Scope</option>
-                            <option value="SuCu">SuCu</option>
-                            <option value="Preventive Maintenance (PM)">Preventive Maintenance (PM)</option>
-                            <option value="Corrective Maintenance (CM)">Corrective Maintenance (CM)</option>
-                            <option value="Penggantian Part">Penggantian Part</option>
-                            <option value="Modifikasi">Modifikasi</option>
-                            <option value="Pembelian Part">Pembelian Part</option>
-                            <option value="Heating Up">Heating Up</option>
-                            <option value="Building dan Utility">Building dan Utility</option>
-                        </select>
-                        <div class="invalid-feedback">Priority is required.</div>
+                    <label for="editPriority">Priority</label>
+                    <select class="form-control" id="editPriority" name="priority" required disabled >
+                        <option value="" disabled selected>Select Priority</option>
+                        <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
+                        <option value="Medium (&gt;2 Week &lt;1 Month)">Mesdium(&gt;2 Week &lt;1 Month)</option>
+                        <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
+                    </select>
+                    <div class="invalid-feedback">Priority is required.</div>
+                </div>            
+                <div class="form-group">
+                    <label for="editScope">Scope</label>
+                    <select class="form-control" id="editScope" name="scope" required disabled>
+                        <option value="" disabled selected>Select Scope</option>
+                        <option value="SuCu">SuCu</option>
+                        <option value="Preventive Maintenance (PM)">Preventive Maintenance (PM)</option>
+                        <option value="Corrective Maintenance (CM)">Corrective Maintenance (CM)</option>
+                        <option value="Penggantian Part">Penggantian Part</option>
+                        <option value="Modifikasi">Modifikasi</option>
+                        <option value="Pembelian Part">Pembelian Part</option>
+                        <option value="Heating Up">Heating Up</option>
+                        <option value="Building dan Utility">Building dan Utility</option>
+                    </select>
+                    <div class="invalid-feedback">Priority is required.</div>
+                </div>
+                <div class="form-group">
+                    <label for="editDescription">Description</label>
+                    <textarea class="form-control" id="editDescription" name="description" rows="3" readonly></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="editEvidence">Evidence (Image, Video, PDF, DOC, etc.)</label>
+                    <input class="form-control" type="file" name="evidence" id="editEvidence" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.mp4,.avi" style="display: none;" readonly>
+                    <!-- Menampilkan nama file yang sudah di-upload -->
+                    <div id="fileNameDisplay" class="form-control" style="background-color: #f7f7f7; padding: 10px; border: 1px solid #ccc;">
+                        <!-- Nama file yang sudah di-upload (misalnya "file_name.jpg") -->
+                        File uploaded: <span id="uploadedFileName">example_file.jpg</span>
                     </div>
-                    <div class="form-group">
-                        <label for="editDescription">Description</label>
-                        <textarea class="form-control" id="editDescription" name="description" rows="3" readonly></textarea>
-                    </div>
+                    <div class="invalid-feedback">Please upload a valid file.</div>
+                </div>
+                
                     <div class="form-group">
                         <label for="editStatus">Status</label>
-                        <select class="form-control" id="editStatus" name="status" required>
-                            <option value="Review Spv">Review Spv</option>
+                        <select class="form-control" id="editStatus" name="status_adm" required>
+                            <option value="Review Admin">Review Admin</option>
                             <option value="Confirm">Confirm</option>
                             <option value="Cancel">Cancel</option>
                         </select>
@@ -442,11 +456,15 @@
                     
                   </div>
                 </div>
-                  
-                
+
+                                 
                 <div class="form-group mt-4 text-right">
-                    <button type="submit" id="saveChanges" class="btn btn-primary">Lanjut Admin</button>
+                    <button type="button" id="addFieldBtn" class="btn btn-success">Internal Eksekusi</button>
+                    <button type="submit" id="submitForm" class="btn btn-primary">Submit</button>
                 </div>
+                <!-- <div class="form-group mt-4 text-right">
+                    <button type="submit" id="submitForm" class="btn btn-primary">Submit</button>
+                </div> -->
                 
                 </form>
             </div>
@@ -537,7 +555,13 @@
         if (menuGetBarang) {
             menuGetBarang.style.display = 'none';
         }
+    if (userRole !== 'user') {
+        const menuGetBarang = document.getElementById('get-wo-user.html');
+        if (menuGetWoUser) {
+            menuGetWoUser.style.display = 'none';
+        }
     } 
+}
 
     // Sembunyikan menu berdasarkan role
     if (userRole !== 'admin' && userRole !== 'superadmin') {
@@ -605,6 +629,32 @@ function updateMenuWithPendingCount(pendingCount) {
     }
 }
 
+const userRole = sessionStorage.getItem('role');
+// Menyembunyikan atau menampilkan menu berdasarkan role
+if (userRole === 'admin') {
+    // Menampilkan menu admin, menyembunyikan menu spv
+    const menuAppAdmin = document.getElementById('appAdmin');
+    const menuAppSpv = document.getElementById('appSpv');
+    
+    if (menuAppAdmin) {
+        menuAppAdmin.style.display = 'block'; // Atur sesuai dengan tampilan yang diinginkan
+    }
+    if (menuAppSpv) {
+        menuAppSpv.style.display = 'none';
+    }
+} else {
+    // Menampilkan menu spv, menyembunyikan menu admin
+    const menuAppSpv = document.getElementById('appSpv');
+    const menuAppAdmin = document.getElementById('appAdmin');
+    
+    if (menuAppSpv) {
+        menuAppSpv.style.display = 'block';
+    }
+    if (menuAppAdmin) {
+        menuAppAdmin.style.display = 'none';
+    }
+}
+
 
  function formatDate(isoString) {
         const date = new Date(isoString);
@@ -618,9 +668,9 @@ function updateMenuWithPendingCount(pendingCount) {
 
 
 
-            // read data
-            document.addEventListener('DOMContentLoaded', function() {
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbxKjTcn8vTpdW0Ikpz60FgcR0kwrZFi4kdLmV0YreAC97TvueqUUQHjOtvYjAy0yreD/exec?action=read';
+             // read data
+             document.addEventListener('DOMContentLoaded', function() {
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
             const loadingSpinner = document.getElementById('loadingSpinner');
 
             // Menampilkan spinner
@@ -674,9 +724,9 @@ function updateMenuWithPendingCount(pendingCount) {
                             tableRow.insertCell(7).textContent = row.priority || '';
                             tableRow.insertCell(8).textContent = row.scope || '';
                             tableRow.insertCell(9).textContent = row.description || '';
-                            tableRow.insertCell(10).textContent = row.requester || '';
-                           
-         const statusCell = tableRow.insertCell(11);statusCell.textContent = statusToDisplay || '';
+                            tableRow.insertCell(10).textContent = row.evidence || '';
+                            tableRow.insertCell(11).textContent = row.requester || '';
+         const statusCell = tableRow.insertCell(12);statusCell.textContent = row.status_user || '';
 
                             // Jika status "Pending", berikan warna merah
                             if (row.status === 'Review Spv') {
@@ -698,7 +748,7 @@ function updateMenuWithPendingCount(pendingCount) {
                             }
 
                             // Tambahkan kolom Edit dan Delete
-                            const actionCell = tableRow.insertCell(12);
+                            const actionCell = tableRow.insertCell(13);
                             actionCell.innerHTML = `
                             <button class="btn btn-success btn-sm edit-btn" data-id="${row.id}" style="${userRole !== 'admin'&& userRole !== 'superadmin' && userRole !== 'supervisor' ? 'display: none;' : ''}">Detail</button>           
                         `;               
@@ -803,9 +853,9 @@ function updateMenuWithPendingCount(pendingCount) {
 
                 // get part name sheet barang
             document.addEventListener('DOMContentLoaded', function() {
-            const partSheetURL = 'https://script.google.com/macros/s/AKfycbxKjTcn8vTpdW0Ikpz60FgcR0kwrZFi4kdLmV0YreAC97TvueqUUQHjOtvYjAy0yreD/exec?action=read';
-            const apiUrl = 'https://script.google.com/macros/s/AKfycbxKjTcn8vTpdW0Ikpz60FgcR0kwrZFi4kdLmV0YreAC97TvueqUUQHjOtvYjAy0yreD/exec?action=getSpareParts';
-            const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbxKjTcn8vTpdW0Ikpz60FgcR0kwrZFi4kdLmV0YreAC97TvueqUUQHjOtvYjAy0yreD/exec?action=getSpecification';
+            const partSheetURL = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=read';
+            const apiUrl = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getSpareParts';
+            const apiUrlSpecification = 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getSpecification';
 
             let partData = [];
 
@@ -884,7 +934,7 @@ function updateMenuWithPendingCount(pendingCount) {
             });
 
           
-    function formatDateForInput(isoString) {
+            function formatDateForInput(isoString) {
     const date = new Date(isoString);
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan mulai dari 0
@@ -903,12 +953,12 @@ function updateMenuWithPendingCount(pendingCount) {
                 const userId = $(this).data('id');
 
                 // Ambil data item berdasarkan ID
-                $.get(`https://script.google.com/macros/s/AKfycbxKjTcn8vTpdW0Ikpz60FgcR0kwrZFi4kdLmV0YreAC97TvueqUUQHjOtvYjAy0yreD/exec?action=getItemById&id=${userId}`, function(data) {
+                $.get(`https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=getItemById&id=${userId}`, function(data) {
 
                     if (data.status === 'success') {
                         const user = data.data;
 
-                        $('#editId').val(user.id);
+                            $('#editId').val(user.id);
                             $('#editTanggal').val(formatDateForInput(user.tanggal));
                             $('#editWaktu').val(formatTimeForInput(user.waktu));
                             $('#editDepartemen').val(user.departemen);
@@ -922,7 +972,7 @@ function updateMenuWithPendingCount(pendingCount) {
                             $('#editDescription').val(user.description);
                             $('#editEvidence').val(user.evidence);
                             $('#editRequester').val(user.requester);
-                            $('#editStatus').val(user.status).attr('data-old-value',user.status);
+                            $('#editStatus').val(user.status_adm).attr('data-old-value',user.status_adm);
                             $('#editNote').val(user.note).attr('data-old-value',user.note);
                             $('#editLog').val(user.log);
                             // Ambil data stock berdasarkan part_name
@@ -991,96 +1041,160 @@ function updateMenuWithPendingCount(pendingCount) {
                     }
                 });
 
-                // Form submission untuk modal edit
-            $('#editForm').submit(function(e) {
-                e.preventDefault();
-                var saveChanges = document.querySelector('#saveChanges');
+                $(document).ready(function() {
+    // Event listener untuk menambahkan form group baru ketika tombol #addFieldBtn diklik
+    $('#addFieldBtn').on('click', function(e) {
+        e.preventDefault();
+        const saveChanges = document.querySelector('#addFieldBtn');
+        
+        saveChanges.disabled = true;
+        saveChanges.textContent = 'Loading...';
 
-                        saveChanges.disabled = true;
-                        saveChanges.textContent = 'Loading...';
+        // Cek jika elemen dropdown executor sudah ada
+        if (!document.getElementById('additionalDataField')) {
+            const additionalDataField = document.createElement('div');
+            additionalDataField.id = 'additionalDataField';
+            additionalDataField.className = 'form-group mt-4';
+            
+            additionalDataField.innerHTML = `
+                <label for="executor" style="display: block; text-align: left">Pilih Eksekutor</label>
+                <select class="form-control" id="executor" name="executor" required>
+                    <option value="" disabled selected>Pilih Eksekutor</option>
+                </select>
+                <div class="invalid-feedback">Eksekutor is required.</div>
+            `;
+            $(additionalDataField).insertBefore('#addFieldBtn');
 
-                const adminName = sessionStorage.getItem('username');
-                const currentDate = new Date().toLocaleString();
-                let changedFields = [];
+            // Tampilkan tombol submit
+            document.getElementById('submitForm').style.display = 'inline-block';
 
-                // Get current values
-                // const currentPartName = $('#editPartName').val();
-                // const currentQty = $('#editQty').val();
-                // const currentQty = parseInt($('#editQty').val(), 10);
-                const currentStatus = $('#editStatus').val();
-                const currentNote = $('#editNote').val();
+            // Panggil API untuk mendapatkan data executor
+            const apiExecutor = 'https://script.google.com/macros/s/AKfycbwuAGfMOV0Qit84uH_tglWDckzRfQG6Ovm3os9I2A_QhVdkeBMiy93LjfNf5ICe9kvUmQ/exec?action=read';
+            fetch(apiExecutor)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success' && Array.isArray(data.data)) {
+                        const executors = data.data.filter(user => user.role === 'executor');
+                        const executorDropdown = document.getElementById('executor');
 
-                // Get old values (could be stored in hidden fields or data attributes)
-                // const oldPartName = $('#editPartName').data('old-value');
-                // const oldQty = $('#editQty').data('old-value');
-                // const oldQty = parseInt($('#editQty').data('old-value'), 10);
-                const oldStatus = $('#editStatus').data('old-value');
-                const oldNote = $('#editNote').data('old-value');
-
-                // Compare old and new values to see what was changed
-                // if (currentPartName !== oldPartName) {
-                //     changedFields.push(`Part Name: ${oldPartName} -> ${currentPartName}`);
-                // }
-                // if (currentQty !== oldQty) {
-                //     changedFields.push(`Qty: ${oldQty} -> ${currentQty}`);
-                // }
-         
-                if (currentNote !== oldNote) {
-                    changedFields.push(`Note: ${oldNote} -> ${currentNote}`);
-                }
-                if (currentStatus !== oldStatus) {
-                    changedFields.push(`Status: ${oldStatus} -> ${currentStatus}`);
-                }
-
-
-                if (adminName) {
-                    const existingLog = $('#editLog').val();
-                    const newLogEntry = `${adminName}, ${currentDate}, Merubah:\n${changedFields.join(', ')}`;
-                    
-                    // Tambahkan entri log baru
-                    const updatedLog = existingLog ? `${existingLog}\n${newLogEntry}` : newLogEntry;
-                    $('#editLog').val(updatedLog);
-                }
-                
-
-
-                const formData = $(this).serialize();
-
-                $.ajax({
-                url: 'https://script.google.com/macros/s/AKfycbxKjTcn8vTpdW0Ikpz60FgcR0kwrZFi4kdLmV0YreAC97TvueqUUQHjOtvYjAy0yreD/exec?action=update',
-                type: 'POST',
-                data: formData,
-                timeout: 60000, // 60 detik
-                success: function(response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Item has been updated.',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#editModal').modal('hide');
-                                location.reload(); // Refresh page after user confirms
-                            }
+                        executors.forEach(user => {
+                            const option = document.createElement('option');
+                            option.value = user.username;
+                            option.textContent = user.username;
+                            executorDropdown.appendChild(option);
                         });
                     } else {
-                        Swal.fire('Error!', response.message, 'error');
+                        console.warn('Respons API tidak valid:', data);
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('Request failed:', textStatus, errorThrown);
-                    Swal.fire('Error!', 'An error occurred while updating the item.', 'error');
-                }
                 })
-                .always(() => {
-                            // Re-enable the saveChanges button and reset text
-                            saveChanges.disabled = false;
-                            saveChanges.textContent = 'Lanjut Admin';
-                        });
+                .catch(error => {
+                    console.error('Gagal mengambil data:', error);
                 });
-            }); 
+        }
 
+        // Reset tombol setelah menambahkan form group
+        saveChanges.disabled = false;
+        saveChanges.textContent = 'Internal Eksekusi';
+    });
+
+             // Form submission untuk modal edit
+$('#editForm').submit(function(e) {
+    console.log('Submit form triggered');
+    e.preventDefault();
+    var saveChanges = document.querySelector('#submitForm');
+
+    saveChanges.disabled = true;
+    saveChanges.textContent = 'Loading...';
+
+    const adminName = sessionStorage.getItem('username');
+    const currentDate = new Date().toLocaleString();
+    let changedFields = [];
+
+    let selectedExecutor = $('#executor').val();
+    console.log('Selected Executor: ', selectedExecutor);  // Log nilai executor
+    if (Array.isArray(selectedExecutor)) {
+        selectedExecutor = selectedExecutor[0]; // Ambil nilai pertama jika ada lebih dari satu
+    }
+
+    const currentStatus = $('#editStatus').val();
+    const currentNote = $('#editNote').val();
+
+    const oldStatus = $('#editStatus').data('old-value');
+    const oldNote = $('#editNote').data('old-value');
+
+    if (currentNote !== oldNote) {
+        changedFields.push(`Note: ${oldNote} -> ${currentNote}`);
+    }
+    if (currentStatus !== oldStatus) {
+        changedFields.push(`Status: ${oldStatus} -> ${currentStatus}`);
+    }
+    // Cek hanya selectedExecutor tanpa oldExecutor
+    if (selectedExecutor) {
+        changedFields.push(`Executor: -> ${selectedExecutor}`); // Jika sebelumnya tidak ada executor
+    }
+
+    if (adminName) {
+        const existingLog = $('#editLog').val();
+        const newLogEntry = `${adminName}, ${currentDate}, Merubah:\n${changedFields.join(', ')}`;
+        
+        // Tambahkan entri log baru
+        const updatedLog = existingLog ? `${existingLog}\n${newLogEntry}` : newLogEntry;
+        $('#editLog').val(updatedLog);
+    }
+
+    // Serialize form data
+    let formData = $(this).serialize();
+    console.log('Form data:', formData);
+
+    // Append selectedExecutor to formData manually
+    formData += `&executor=${encodeURIComponent(selectedExecutor)}`;
+
+    console.log('Form data:', formData);
+
+    $.ajax({
+        url: 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=updateAdm',
+        type: 'POST',
+        data: formData,
+        timeout: 60000, // 60 detik
+        success: function(response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    title: 'Updated!',
+                    text: 'Item has been updated.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#editModal').modal('hide');
+                        location.reload(); // Refresh page after user confirms
+                    }
+                });
+            } else {
+                Swal.fire('Error!', response.message, 'error');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed:', textStatus, errorThrown);
+            Swal.fire('Error!', 'An error occurred while updating the item.', 'error');
+        }
+    })
+    .always(() => {
+        // Re-enable the saveChanges button and reset text
+        saveChanges.disabled = false;
+        saveChanges.textContent = 'Lanjut Admin';
+    });
+});
+});
+});
+
+</script>
+
+<script>
+    // Jika ada nama file yang sudah diupload sebelumnya, pastikan fileNameDisplay menampilkan file tersebut
+    window.onload = function() {
+        var uploadedFileName = "example_file.jpg"; // Ganti dengan nama file yang sudah di-upload sebelumnya dari server
+        document.getElementById('uploadedFileName').textContent = uploadedFileName;
+    }
 </script>
 
 <script>
@@ -1100,4 +1214,4 @@ function updateMenuWithPendingCount(pendingCount) {
 
 </body>
 
-</html> 
+</html>

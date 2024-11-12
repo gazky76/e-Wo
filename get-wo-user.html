@@ -388,10 +388,15 @@
                     <div class="form-group">
                         <label for="scope">Scope</label>
                         <select class="form-control" id="scope" name="scope" required >
-                            <option value="" disabled selected>Select Priority</option>
-                            <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
-                            <option value="Medium (&gt;2 Week &lt;1 Month)">Mesdium(&gt;2 Week &lt;1 Month)</option>
-                            <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
+                            <option value="" disabled selected>Select Scope</option>
+                            <option value="SuCu">SuCu</option>
+                            <option value="Preventive Maintenance (PM)">Preventive Maintenance (PM)</option>
+                            <option value="Corrective Maintenance (CM)">Corrective Maintenance (CM)</option>
+                            <option value="Penggantian Part">Penggantian Part</option>
+                            <option value="Modifikasi">Modifikasi</option>
+                            <option value="Pembelian Part">Pembelian Part</option>
+                            <option value="Heating Up">Heating Up</option>
+                            <option value="Building dan Utility">Building dan Utility</option>
                         </select>
                         <div class="invalid-feedback">Priority is required.</div>
                     </div>
@@ -400,11 +405,11 @@
                         <textarea class="form-control" id="description" name="description" rows="3"></textarea>
                     </div>
 
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label for="evidence">Evidence (Image, Video, PDF, DOC, etc.)</label>
                         <input class="form-control" type="file" name="evidence" id="evidence" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx,.mp4,.avi">
                         <div class="invalid-feedback">Please upload a valid file.</div>
-                    </div>
+                    </div> -->
                     <!-- <div id="itemsContainer">
                         <div class="item-row row">
                             <div class="col-md-4">
@@ -505,9 +510,6 @@
                         <input type="text" class="form-control" id="editId" name="id" required readonly>
                         <div class="invalid-feedback">Room is required.</div>
                     </div>
-                  </div>
-
-                  <div class="col-md-6"> <!-- Kolom untuk layar desktop -->
                     <div class="form-group">
                         <label for="editRequester">Requester</label>
                         <input type="text" class="form-control" id="editRequester" name="requester" required readonly>
@@ -518,24 +520,56 @@
                         <input type="text" class="form-control" id="editLocation" name="location" required readonly>
                         <div class="invalid-feedback">Store Keeper/Security is required.</div>
                     </div>
+                  </div>
+
+                  <div class="col-md-6"> <!-- Kolom untuk layar desktop -->
+                   
                     <div class="form-group">
+                        <label for="editPriority">Priority</label>
+                        <select class="form-control" id="editPriority" name="priority" required disabled >
+                            <option value="" disabled selected>Select Priority</option>
+                            <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
+                            <option value="Medium (&gt;2 Week &lt;1 Month)">Medium(&gt;2 Week &lt;1 Month)</option>
+                            <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
+                        </select>
+                        <div class="invalid-feedback">Priority is required.</div>
+                    </div>            
+                    <div class="form-group">
+                        <label for="editScope">Scope</label>
+                        <select class="form-control" id="editScope" name="scope" required disabled>
+                            <option value="" disabled selected>Select Scope</option>
+                            <option value="SuCu">SuCu</option>
+                            <option value="Preventive Maintenance (PM)">Preventive Maintenance (PM)</option>
+                            <option value="Corrective Maintenance (CM)">Corrective Maintenance (CM)</option>
+                            <option value="Penggantian Part">Penggantian Part</option>
+                            <option value="Modifikasi">Modifikasi</option>
+                            <option value="Pembelian Part">Pembelian Part</option>
+                            <option value="Heating Up">Heating Up</option>
+                            <option value="Building dan Utility">Building dan Utility</option>
+                        </select>
+                        <div class="invalid-feedback">Priority is required.</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editDescription">Description</label>
+                        <textarea class="form-control" id="editDescription" name="description" rows="3" readonly></textarea>
+                    </div>
+                    <!-- <div class="form-group">
                         <label for="editStatus">Status</label>
-                        <select class="form-control" id="editStatus" name="status_user" required disabled>
+                        <select class="form-control" id="editStatus" name="status" required>
                             <option value="Review Spv">Review Spv</option>
-                            <option value="Review Admin">Review Admin</option>
                             <option value="Confirm">Confirm</option>
                             <option value="Cancel">Cancel</option>
                         </select>
                     </div> 
                     <div class="form-group">
                         <label for="editNote">Note</label>
-                        <textarea class="form-control" id="editNote" name="note" rows="1" readonly></textarea>
-                        <!-- <input type="text" class="form-control" id="editNote" name="note"> -->
+                        <textarea class="form-control" id="editNote" name="note" rows="1"></textarea>
+                        <input type="text" class="form-control" id="editNote" name="note">
                     </div>
                     <div class="form-group">
                         <label for="editLog">Event Log</label>
-                        <textarea class="form-control" id="editLog" name="log" rows="5" readonly></textarea>
-                    </div>
+                        <textarea class="form-control" id="editLog" name="log" rows="3" readonly></textarea>
+                    </div> -->
                     
                   </div>
                 </div>
@@ -550,7 +584,6 @@
         </div>
     </div>
 </div>
-
             <!-- Footer Start -->
             <footer class="footer">
                 <div class="container-fluid">

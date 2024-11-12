@@ -400,7 +400,7 @@
                     <select class="form-control" id="editPriority" name="priority" required disabled >
                         <option value="" disabled selected>Select Priority</option>
                         <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
-                        <option value="Medium (&gt;2 Week &lt;1 Month)">Mesdium(&gt;2 Week &lt;1 Month)</option>
+                        <option value="Medium (&gt;2 Week &lt;1 Month)">Medium(&gt;2 Week &lt;1 Month)</option>
                         <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
                     </select>
                     <div class="invalid-feedback">Priority is required.</div>
@@ -408,10 +408,15 @@
                 <div class="form-group">
                     <label for="editScope">Scope</label>
                     <select class="form-control" id="editScope" name="scope" required disabled>
-                        <option value="" disabled selected>Select Priority</option>
-                        <option value="High (&lt;1 Week)/Safety">High(&lt;1 Week)/Safety</option>
-                        <option value="Medium (&gt;2 Week &lt;1 Month)">Mesdium(&gt;2 Week &lt;1 Month)</option>
-                        <option value="Low (&gt;1 Month)">Low(&gt;1 Month)</option>
+                        <option value="" disabled selected>Select Scope</option>
+                        <option value="SuCu">SuCu</option>
+                        <option value="Preventive Maintenance (PM)">Preventive Maintenance (PM)</option>
+                        <option value="Corrective Maintenance (CM)">Corrective Maintenance (CM)</option>
+                        <option value="Penggantian Part">Penggantian Part</option>
+                        <option value="Modifikasi">Modifikasi</option>
+                        <option value="Pembelian Part">Pembelian Part</option>
+                        <option value="Heating Up">Heating Up</option>
+                        <option value="Building dan Utility">Building dan Utility</option>
                     </select>
                     <div class="invalid-feedback">Priority is required.</div>
                 </div>
@@ -1030,158 +1035,150 @@ if (userRole === 'admin') {
                 });
 
                 $(document).ready(function() {
-                        // Event listener untuk menambahkan form group baru ketika saveChanges1 ditekan
-                        $('#addFieldBtn').on('click', function(e) {
-                            e.preventDefault();
-                            var saveChanges = document.querySelector('#addFieldBtn');
-                            
-                            saveChanges.disabled = true;
-                            saveChanges.textContent = 'Loading...';
+    // Event listener untuk menambahkan form group baru ketika tombol #addFieldBtn diklik
+    $('#addFieldBtn').on('click', function(e) {
+        e.preventDefault();
+        const saveChanges = document.querySelector('#addFieldBtn');
+        
+        saveChanges.disabled = true;
+        saveChanges.textContent = 'Loading...';
 
-                            // Tambahkan form group baru jika belum ada
-                            if (!document.getElementById('additionalDataField')) {
-                                const additionalDataField = document.createElement('div');
-                                additionalDataField.id = 'additionalDataField';
-                                additionalDataField.className = 'form-group mt-4';
-                                
-                                additionalDataField.innerHTML = `
-                                    <label for="newData" style="display: block; text-align: left">Pilih Eksekutor</label>
-                                     <select class="form-control" id="executor" name="executor">
-                                        <option value="" disabled selected>Pilih Eksekutor</option>
-                                    </select>
-                                    <div class="invalid-feedback">Eksekutor is required.</div>
-                                `;
-                                // Sisipkan form group baru di atas tombol saveChanges1
-                                $(additionalDataField).insertBefore('#addFieldBtn');
+        // Cek jika elemen dropdown executor sudah ada
+        if (!document.getElementById('additionalDataField')) {
+            const additionalDataField = document.createElement('div');
+            additionalDataField.id = 'additionalDataField';
+            additionalDataField.className = 'form-group mt-4';
+            
+            additionalDataField.innerHTML = `
+                <label for="executor" style="display: block; text-align: left">Pilih Eksekutor</label>
+                <select class="form-control" id="executor" name="executor" required>
+                    <option value="" disabled selected>Pilih Eksekutor</option>
+                </select>
+                <div class="invalid-feedback">Eksekutor is required.</div>
+            `;
+            $(additionalDataField).insertBefore('#addFieldBtn');
 
-                                // $('#editForm').append(additionalDataField);
+            // Tampilkan tombol submit
+            document.getElementById('submitForm').style.display = 'inline-block';
 
-                                // Tampilkan tombol submit setelah menambahkan input
-                                document.getElementById('submitForm').style.display = 'inline-block';
-                                // Panggil API untuk mendapatkan data executor
-                                    const apiExecutor = 'https://script.google.com/macros/s/AKfycbwuAGfMOV0Qit84uH_tglWDckzRfQG6Ovm3os9I2A_QhVdkeBMiy93LjfNf5ICe9kvUmQ/exec?action=read';
-                                    fetch(apiExecutor)
-                                        .then(response => response.json())
-                                        .then(data => {
-                                            console.log('Data executor:', data);
-                                           // Cek apakah data.status adalah 'success' dan data.data adalah array
-                                            if (data.status === 'success' && Array.isArray(data.data)) {
-                                                const executors = data.data.filter(user => user.role === 'executor');
-                                                console.log('Executor yang ditemukan:', executors);
+            // Panggil API untuk mendapatkan data executor
+            const apiExecutor = 'https://script.google.com/macros/s/AKfycbwuAGfMOV0Qit84uH_tglWDckzRfQG6Ovm3os9I2A_QhVdkeBMiy93LjfNf5ICe9kvUmQ/exec?action=read';
+            fetch(apiExecutor)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success' && Array.isArray(data.data)) {
+                        const executors = data.data.filter(user => user.role === 'executor');
+                        const executorDropdown = document.getElementById('executor');
 
-                                                const executorDropdown = document.getElementById('executor');
-                                                if (!executorDropdown) {
-                                                    console.error('Dropdown executor tidak ditemukan!');
-                                                    return;
-                                                }
-
-                                                executors.forEach(user => {
-                                                    const option = document.createElement('option');
-                                                    option.value = user.username;
-                                                    option.textContent = user.username;
-                                                    executorDropdown.appendChild(option);
-                                                });
-                                            } else {
-                                                console.warn('Respons API tidak valid:', data);
-                                            }
-                                        })
-                                        .catch(error => {
-                                            console.error('Gagal mengambil data:', error);
-                                        });
-                                }
-
-                                // Reset tombol setelah menambahkan form group
-                                saveChanges.disabled = false;
-                                saveChanges.textContent = 'Internal Eksekusi';
-                            });
-
-              // Form submission untuk modal edit
-            $('#editForm').submit(function(e) {
-                console.log('Submit form triggered');
-                e.preventDefault();
-                var saveChanges = document.querySelector('#submitForm');
-
-                        saveChanges.disabled = true;
-                        saveChanges.textContent = 'Loading...';
-
-                const adminName = sessionStorage.getItem('username');
-                const currentDate = new Date().toLocaleString();
-                let changedFields = [];
-
-                let selectedExecutor = $('#executor').val();
-                if (Array.isArray(selectedExecutor)) {
-                    selectedExecutor = selectedExecutor[0]; // Ambil nilai pertama jika ada lebih dari satu
-                }
-
-
-                const currentStatus = $('#editStatus').val();
-                const currentNote = $('#editNote').val();
-
-                const oldStatus = $('#editStatus').data('old-value');
-                const oldNote = $('#editNote').data('old-value');
- 
-                if (currentNote !== oldNote) {
-                    changedFields.push(`Note: ${oldNote} -> ${currentNote}`);
-                }
-                if (currentStatus !== oldStatus) {
-                    changedFields.push(`Status: ${oldStatus} -> ${currentStatus}`);
-                }
-                // Cek hanya selectedExecutor tanpa oldExecutor
-                if (selectedExecutor) {
-                    changedFields.push(`Executor: -> ${selectedExecutor}`); // Jika sebelumnya tidak ada executor
-                }
-
-
-                if (adminName) {
-                    const existingLog = $('#editLog').val();
-                    const newLogEntry = `${adminName}, ${currentDate}, Merubah:\n${changedFields.join(', ')}`;
-                    
-                    // Tambahkan entri log baru
-                    const updatedLog = existingLog ? `${existingLog}\n${newLogEntry}` : newLogEntry;
-                    $('#editLog').val(updatedLog);
-                }
-
-
-
-                const formData = $(this).serialize();
-                console.log('Form data:', formData);
-
-
-                $.ajax({
-                url: 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=updateAdm',
-                type: 'POST',
-                data: formData,
-                timeout: 60000, // 60 detik
-                success: function(response) {
-                    if (response.status === 'success') {
-                        Swal.fire({
-                            title: 'Updated!',
-                            text: 'Item has been updated.',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                $('#editModal').modal('hide');
-                                location.reload(); // Refresh page after user confirms
-                            }
+                        executors.forEach(user => {
+                            const option = document.createElement('option');
+                            option.value = user.username;
+                            option.textContent = user.username;
+                            executorDropdown.appendChild(option);
                         });
                     } else {
-                        Swal.fire('Error!', response.message, 'error');
+                        console.warn('Respons API tidak valid:', data);
                     }
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.error('Request failed:', textStatus, errorThrown);
-                    Swal.fire('Error!', 'An error occurred while updating the item.', 'error');
-                }
                 })
-                .always(() => {
-                            // Re-enable the saveChanges button and reset text
-                            saveChanges.disabled = false;
-                            saveChanges.textContent = 'Lanjut Admin';
-                        });
+                .catch(error => {
+                    console.error('Gagal mengambil data:', error);
                 });
-            }); 
-        }); 
+        }
+
+        // Reset tombol setelah menambahkan form group
+        saveChanges.disabled = false;
+        saveChanges.textContent = 'Internal Eksekusi';
+    });
+
+             // Form submission untuk modal edit
+$('#editForm').submit(function(e) {
+    console.log('Submit form triggered');
+    e.preventDefault();
+    var saveChanges = document.querySelector('#submitForm');
+
+    saveChanges.disabled = true;
+    saveChanges.textContent = 'Loading...';
+
+    const adminName = sessionStorage.getItem('username');
+    const currentDate = new Date().toLocaleString();
+    let changedFields = [];
+
+    let selectedExecutor = $('#executor').val();
+    console.log('Selected Executor: ', selectedExecutor);  // Log nilai executor
+    if (Array.isArray(selectedExecutor)) {
+        selectedExecutor = selectedExecutor[0]; // Ambil nilai pertama jika ada lebih dari satu
+    }
+
+    const currentStatus = $('#editStatus').val();
+    const currentNote = $('#editNote').val();
+
+    const oldStatus = $('#editStatus').data('old-value');
+    const oldNote = $('#editNote').data('old-value');
+
+    if (currentNote !== oldNote) {
+        changedFields.push(`Note: ${oldNote} -> ${currentNote}`);
+    }
+    if (currentStatus !== oldStatus) {
+        changedFields.push(`Status: ${oldStatus} -> ${currentStatus}`);
+    }
+    // Cek hanya selectedExecutor tanpa oldExecutor
+    if (selectedExecutor) {
+        changedFields.push(`Executor: -> ${selectedExecutor}`); // Jika sebelumnya tidak ada executor
+    }
+
+    if (adminName) {
+        const existingLog = $('#editLog').val();
+        const newLogEntry = `${adminName}, ${currentDate}, Merubah:\n${changedFields.join(', ')}`;
+        
+        // Tambahkan entri log baru
+        const updatedLog = existingLog ? `${existingLog}\n${newLogEntry}` : newLogEntry;
+        $('#editLog').val(updatedLog);
+    }
+
+    // Serialize form data
+    let formData = $(this).serialize();
+    console.log('Form data:', formData);
+
+    // Append selectedExecutor to formData manually
+    formData += `&executor=${encodeURIComponent(selectedExecutor)}`;
+
+    console.log('Form data:', formData);
+
+    $.ajax({
+        url: 'https://script.google.com/macros/s/AKfycbyxL1T4KZVO8ZRlyEOn406jvfPOz0DY3YmGKqeHdJmb1slvuJWsVzqTmQ_j7phrrsfM/exec?action=updateAdm',
+        type: 'POST',
+        data: formData,
+        timeout: 60000, // 60 detik
+        success: function(response) {
+            if (response.status === 'success') {
+                Swal.fire({
+                    title: 'Updated!',
+                    text: 'Item has been updated.',
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $('#editModal').modal('hide');
+                        location.reload(); // Refresh page after user confirms
+                    }
+                });
+            } else {
+                Swal.fire('Error!', response.message, 'error');
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Request failed:', textStatus, errorThrown);
+            Swal.fire('Error!', 'An error occurred while updating the item.', 'error');
+        }
+    })
+    .always(() => {
+        // Re-enable the saveChanges button and reset text
+        saveChanges.disabled = false;
+        saveChanges.textContent = 'Lanjut Admin';
+    });
+});
+});
+});
 
 </script>
 
